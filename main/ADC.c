@@ -1,15 +1,17 @@
-#include "ADC.h"
+#include "ADC.h"  // Include the header file for ADC functionality
 
-void adc_read()
-{
-    static int adc_raw[2][10];
-    //ADC1 config
-    ESP_ERROR_CHECK(adc1_config_width(0));
-    ESP_ERROR_CHECK(adc1_config_channel_atten(ADC1_CHANNEL_0, 3));
-    while (1) {
-        adc_raw[0][0] = adc1_get_raw(0);
-        //ESP_LOGI(TAG, "raw  data: %d", adc_raw[0][0]);
-        adc_delay=adc_raw[0][0];
-        vTaskDelay(50 / portTICK_PERIOD_MS);
+// Function to continuously read ADC values
+void adc_read() {
+    
+    // Configure ADC1 settings
+    ESP_ERROR_CHECK(adc1_config_width(ADC_WIDTH_BIT_12));  // Set the ADC width to 12 bits 
+    ESP_ERROR_CHECK(adc1_config_channel_atten(ADC_CHANNEL, ADC_ATTEN_DB_11)); // Set the attenuation for ADC1_CHANNEL_0 to 11 dB for better range
+
+    while (1) {  
+        // Read ADC value
+        int adc_value = adc1_get_raw(ADC_CHANNEL);
+
+        adc_delay = adc_value;  // Update the global adc_delay variable with the latest ADC reading
+        vTaskDelay(pdMS_TO_TICKS(50));  // Delay for 50 milliseconds before the next reading
     }
 }

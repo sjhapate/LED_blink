@@ -20,7 +20,7 @@
 #define RMT_LED_STRIP_GPIO_NUM      17         // GPIO pin number for the LED strip
 
 // Function prototype for the LED flashing task
-void led_flasher();
+void led_flasher(void *pvParameters);
 
 // Declare an external variable to hold the ADC delay value
 extern int adc_delay;

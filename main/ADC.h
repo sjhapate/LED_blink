@@ -8,6 +8,6 @@
 #include "esp_adc_cal.h"       // Include the ESP ADC calibration header for ADC calibration functions
 
 // Function prototype for the ADC read function
-void adc_read();              // Declaration of the adc_read function that will continuously read ADC values
+void adc_read(void *pvParameters);              // Declaration of the adc_read function that will continuously read ADC values
 
 #endif // ADC_H

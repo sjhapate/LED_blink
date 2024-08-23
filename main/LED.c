@@ -48,7 +48,7 @@ static void set_led_col(int blinkSpeed ) {
 }
 
 // Function to flash the LED
-void led_flasher() {
+void led_flasher(void *pvParameters) {
     uint8_t loop = 0;  // Loop control variable
     ESP_LOGI(TAG, "Create RMT TX channel");  // Log message indicating the creation of RMT TX channel
 

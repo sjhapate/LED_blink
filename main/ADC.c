@@ -1,7 +1,7 @@
 #include "ADC.h"  // Include the header file for ADC functionality
 
 // Function to continuously read ADC values
-void adc_read() {
+void adc_read(void *pvParameters) {
     
     // Configure ADC1 settings
     ESP_ERROR_CHECK(adc1_config_width(ADC_WIDTH_BIT_12));  // Set the ADC width to 12 bits 

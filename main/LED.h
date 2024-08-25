@@ -1,9 +1,10 @@
 #ifndef LED_H
 #define LED_H
 
-#define MIN_BLINK_SPEED 0
-#define MAX_BLINK_SPEED 50
-#define ADC_SCALE_FACTOR 80
+#define MIN_BLINK_SPEED (10)
+#define MAX_BLINK_SPEED (1000)
+#define ADC_MAX_VALUE (3248)
+#define RANGE_DIFFRENCE (900)
 
 #include <string.h>               // Include string manipulation functions
 #include "driver/gpio.h"          // Include GPIO driver for GPIO control
@@ -23,6 +24,6 @@
 void led_flasher(void *pvParameters);
 
 // Declare an external variable to hold the ADC delay value
-extern int adc_delay;
+extern uint32_t AdcValue;
 
 #endif // LED_H

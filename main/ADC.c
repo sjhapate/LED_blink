@@ -9,9 +9,9 @@ void adc_read(void *pvParameters) {
 
     while (1) {  
         // Read ADC value
-        int adc_value = adc1_get_raw(ADC_CHANNEL);
+        int32_t adc_value = adc1_get_raw(ADC_CHANNEL);
 
-        adc_delay = adc_value;  // Update the global adc_delay variable with the latest ADC reading
+        AdcValue = adc_value;  // Update the global adc_delay variable with the latest ADC reading
         vTaskDelay(pdMS_TO_TICKS(50));  // Delay for 50 milliseconds before the next reading
     }
 }

@@ -24,6 +24,6 @@
 void led_flasher(void *pvParameters);
 
 // Declare an external variable to hold the ADC delay value
-extern uint32_t AdcValue;
+extern uint16_t AdcValue;
 
 #endif // LED_H

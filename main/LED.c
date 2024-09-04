@@ -5,31 +5,50 @@ static const char *TAG = "LED"; // Log tag for this module
 uint32_t AdcValue = 3000;                            // Variable to store the ADC delay value (initially set to 3000)
 static uint8_t led_strip_pixels[3] = {255, 255, 255}; // Array to hold RGB values for the LED (initialized to white)
 
-// Function to Change the color of the LED depending on the frequency
-static void set_led_col(uint8_t *value)
+static void set_led_col()
 {
-
-    if (*value != 1)
+    uint8_t Task = 1; 
+    
+    if (Task != 1)
     {
-        float freq = (float)AdcValue / ADC_MAX_VALUE * 10.0; 
+        // Calculate frequency scaled to a 0-10 range
+        float freq = ((float)AdcValue / ADC_MAX_VALUE) * 10.0f; 
         uint8_t red = 0, green = 0, blue = 0;
 
-        // ESP_LOGI(TAG, "freq : %f", freq);  // Log the current delay value
-        // Map frequency to RGB colors
-        red = (uint8_t)(255 * (1 - freq / 10)); // Red decreases with frequency
-        green = (uint8_t)(255 * (freq / 10));   // Green increases with frequency
-        blue = (uint8_t)(255 * (freq / 10));    // Blue increases with frequency
+        // Optimize color changes by grouping similar settings
+        switch ((int)freq) 
+        {
+            case 0 ... 1:   // Frequency 0-1
+                red = 255; green = 0; blue = 0;  
+                break;
+            case 2 ... 3:   // Frequency 2-3
+                red = 200; green = 55; blue = 0; 
+                break;
+            case 4 ... 5:   // Frequency 4-5
+                red = 150; green = 105; blue = 0; 
+                break;
+            case 6 ... 7:   // Frequency 6-7
+                red = 100; green = 155; blue = 0; 
+                break;
+            case 8 ... 10:  // Frequency 8-10
+                red = 0; green = 255; blue = 0;  
+                break;
+            default:        // Any unexpected frequency
+                red = 0; green = 0; blue = 255;  
+                break;
+        }
 
+        // Set the LED strip colors
         led_strip_pixels[0] = red;
         led_strip_pixels[1] = green;
         led_strip_pixels[2] = blue;
     }
     else
     {
-        // If blink speed is zero, set LED to white
-        led_strip_pixels[0] = 255; // Red
-        led_strip_pixels[1] = 255; // Green
-        led_strip_pixels[2] = 255; // Blue
+        // Set LED to white when value is 1
+        led_strip_pixels[0] = 255; 
+        led_strip_pixels[1] = 255; 
+        led_strip_pixels[2] = 255; 
     }
 }
 
@@ -72,7 +91,6 @@ void led_flasher(void *pvParameters)
         * ADC range: 0 to 3248 (12-bit ADC scaled)
         * Delay range: 1000 ms to 100 ms 
         */
-        uint8_t Task = 2;
         int32_t delay;
 
         delay = (MAX_BLINK_SPEED - ((RANGE_DIFFRENCE * AdcValue) / ADC_MAX_VALUE)); // Calculate blink speed based on ADC dela
@@ -82,7 +100,7 @@ void led_flasher(void *pvParameters)
         {
             if (loop == 0)
             {
-                set_led_col(&Task); // Set LED color
+                set_led_col(); // Set LED color
                 loop = 1;           // Update loop variable
             }
             else

@@ -5,10 +5,11 @@ static const char *TAG = "LED"; // Log tag for this module
 uint32_t AdcValue = 3000;                            // Variable to store the ADC delay value (initially set to 3000)
 static uint8_t led_strip_pixels[3] = {255, 255, 255}; // Array to hold RGB values for the LED (initialized to white)
 
+// Function to change the color of the LED depending on the frequency
 static void set_led_col()
 {
     uint8_t Task = 1; 
-    
+
     if (Task != 1)
     {
         // Calculate frequency scaled to a 0-10 range
